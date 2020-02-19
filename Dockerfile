@@ -1,5 +1,20 @@
 FROM haproxy:1.9-alpine
 
+# Create user HOME
+RUN mkdir /app/home
+
+# Create a user group 'tcpproxy'
+RUN addgroup -S tcpproxy
+
+# Create a user 'tcpproxy' under 'tcpproxy'
+RUN adduser -S -D --home /app/home --ingroup tcpproxy tcpproxy
+
+# Chown all the files to the app user.
+RUN chown -R tcpproxy:tcpproxy /app
+
+# Switch to 'tcpproxy'
+USER tcpproxy
+
 ENTRYPOINT ["/magic-entrypoint", "/docker-entrypoint.sh"]
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
 
@@ -20,13 +35,3 @@ ENV NAMESERVERS="208.67.222.222 8.8.8.8 208.67.220.220 8.8.4.4" \
     TIMEOUT_TUNNEL=5s \
     UDP=0 \
     VERBOSE=0
-
-# Metadata
-ARG VCS_REF
-ARG BUILD_DATE
-LABEL org.label-schema.schema-version="1.0" \
-      org.label-schema.vendor=Tecnativa \
-      org.label-schema.license=Apache-2.0 \
-      org.label-schema.build-date="$BUILD_DATE" \
-      org.label-schema.vcs-ref="$VCS_REF" \
-      org.label-schema.vcs-url="https://github.com/Tecnativa/docker-tcp-proxy"
