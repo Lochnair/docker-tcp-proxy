@@ -1,7 +1,7 @@
 FROM haproxy:1.9-alpine
 
 # Create user HOME
-RUN mkdir /app/home
+RUN mkdir -p /app/home
 
 # Create a user group 'tcpproxy'
 RUN addgroup -S tcpproxy
