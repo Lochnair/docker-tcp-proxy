@@ -15,7 +15,7 @@ RUN addgroup -S tcpproxy
 RUN adduser -S -D --home /app/home --ingroup tcpproxy tcpproxy
 
 # Chown all the files to the app user.
-RUN chown -R tcpproxy:tcpproxy /app
+RUN chown -R tcpproxy:tcpproxy /app/home
 
 # Switch to 'tcpproxy'
 USER tcpproxy
