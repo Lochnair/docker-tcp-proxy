@@ -5,21 +5,6 @@ RUN apk add --no-cache py3-pip &&\
 
 COPY magic-entrypoint.py /magic-entrypoint
 
-# Create user HOME
-RUN mkdir -p /app/home
-
-# Create a user group 'tcpproxy'
-RUN addgroup -S tcpproxy
-
-# Create a user 'tcpproxy' under 'tcpproxy'
-RUN adduser -S -D --home /app/home --ingroup tcpproxy tcpproxy
-
-# Chown all the files to the app user.
-RUN chown -R tcpproxy:tcpproxy /app/home
-
-# Switch to 'tcpproxy'
-USER tcpproxy
-
 ENTRYPOINT ["/magic-entrypoint", "/docker-entrypoint.sh"]
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
 
