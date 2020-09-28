@@ -1,6 +1,6 @@
 FROM haproxy:2.2-alpine
 
-RUN apk add --no-cache python3 &&\
+RUN apk add --no-cache py3-pip &&\
     pip3 install --no-cache-dir dnspython
 
 COPY magic-entrypoint.py /magic-entrypoint
